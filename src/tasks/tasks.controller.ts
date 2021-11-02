@@ -8,6 +8,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
+import { FilterTaskDto } from './dto/filter-task.dto';
 import { Task } from './entity/tasks.entity';
 import { TaskStatus } from './task-status.enum';
 import { TasksService } from './tasks.service';
@@ -15,6 +16,11 @@ import { TasksService } from './tasks.service';
 @Controller('tasks')
 export class TasksController {
   constructor(private taskService: TasksService) {}
+
+  @Get()
+  getTasks(@Param() filterTaskDto: FilterTaskDto): Promise<Task[]> {
+    return this.taskService.getTasks(filterTaskDto);
+  }
 
   @Get(':id')
   getTaskById(@Param('id') id: string): Promise<Task> {
